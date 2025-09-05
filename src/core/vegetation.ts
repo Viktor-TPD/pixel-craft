@@ -3,7 +3,7 @@ import { Noise } from 'noisejs'
 import { Sprite } from 'pixi.js'
 import { isoPosToWorldPos, TILE_HEIGHT, TILE_HEIGHT_HALF, TILE_WIDTH_HALF } from './tiles'
 import { ASSETS } from './assets'
-import { SEED } from '../lib/utils/perlinNoise'
+import { getSeed } from '../lib/utils/perlinNoise' // Changed import
 import { isTileWater } from './water'
 import { Chunk } from '../types/tiles'
 
@@ -45,7 +45,7 @@ const deterministicHash = (x: number, y: number, seed: number) => {
 }
 
 export const generateVegetationNoise = (x: number, y: number) => {
-	const noise = new Noise(SEED)
+	const noise = new Noise(getSeed()) // Changed to use getSeed()
 
 	// // Domain warping for realistic coastlines
 	const scale = 80
@@ -71,7 +71,7 @@ export const generateVegetationNoise = (x: number, y: number) => {
 
 const getTextureFromPerlin = (perlin: number, x: number, y: number) => {
 	let textureKey = ''
-	const shouldRender = deterministicHash(x, y, SEED)
+	const shouldRender = deterministicHash(x, y, getSeed()) // Changed to use getSeed()
 
 	for (const [key, value] of Object.entries(VEGETATION_NOISE)) {
 		const isThree = key === 'oak-tree.png' && perlin <= value
