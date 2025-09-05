@@ -27,15 +27,8 @@ export class SeedBox {
 		input.type = 'number'
 		input.min = '0'
 		input.max = '99999'
-		input.placeholder = 'Enter seed (0-99999) or leave blank for random seed.'
+		input.placeholder = 'Enter seed...'
 		input.className = 'seed-input'
-		input.style.cssText = `
-		padding: 8px 12px;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		font-size: 14px;
-		width: 100%;
-		`
 		return input
 	}
 
