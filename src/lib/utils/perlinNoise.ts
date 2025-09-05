@@ -2,17 +2,21 @@
 import { Noise } from 'noisejs'
 import { CHUNK_SIZE, isoPosToWorldPos } from '../../core/tiles'
 
-export const SEED = 47208
+let SEED = 47208
+
+export const setSeed = (newSeed: number) => {
+	SEED = newSeed
+}
+
+export const getSeed = () => SEED
 
 export const generatePerlinNoise = (x: number, y: number) => {
 	const noise = new Noise(SEED)
-	// Domain warping for realistic coastlines
 	const scale = 80
 	let frequency = 0.005
 	const warpX = noise.perlin2(x * frequency, y * frequency) * scale
 	const warpY = noise.perlin2((x + 1000) * frequency, y * frequency) * scale
 
-	// Multi-octave fractal noise
 	let value = 0
 	let amplitude = 1
 	frequency = 0.025
