@@ -15,12 +15,17 @@
 	</head>
 	<body>
 		<div id="menu-root">
-			<h1 id="menu-title">Pixel Craft</h1>
-			<label>
-				Seed:
-				<div class="modal-body"></div>
-			</label>
-			<button id="startBtn">Start World</button>
+			<div class="menu-panel">
+				<h1 id="menu-title">Pixel Craft</h1>
+				<label>
+					Seed:
+					<div class="modal-body"></div>
+					<small class="seed-disclaimer"
+						>Enter seed (0–99999) or leave blank for random seed.</small
+					>
+				</label>
+				<button id="startBtn">Start World</button>
+			</div>
 		</div>
 
 		<script src="./src/menu.ts" type="module"></script>
