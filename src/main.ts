@@ -22,7 +22,7 @@ import { handleWindowResize } from './lib/utils/window'
 
 let view = new Rectangle(0, 0, window.innerWidth, window.innerHeight)
 
-const init = async () => {
+export const init = async () => {
 	const app = new Application()
 	await app.init({
 		resizeTo: window,
@@ -78,5 +78,3 @@ const init = async () => {
 		view = new Rectangle(0, 0, window.innerWidth, window.innerHeight)
 	})
 }
-
-window.addEventListener('DOMContentLoaded', init)
