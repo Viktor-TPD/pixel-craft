@@ -17,14 +17,15 @@ import { Chunk } from '../types/tiles'
 import { getVegetationFromGround, hasVegetationCollisions } from './vegetation'
 import { generatePerlinNoise } from '../lib/utils/perlinNoise'
 import { isTileWater } from './water'
+import { getSeed } from '../lib/utils/perlinNoise'
 
 export const PLAYER_WIDTH = 32
 export const PLAYER_HEIGHT = 64
 const PLAYER_FRAME_LENGTH = 3
 
-const DEFAULT_SPEED = 1
+const DEFAULT_SPEED = 2
 export let PLAYER_SPEED = DEFAULT_SPEED
-const WATER_SPEED_REDUCTION = 0.6
+const WATER_SPEED_REDUCTION = DEFAULT_SPEED * 0.5
 // Diffrent water position if comming in or out from top or bottom of lakes since top you see the side of the ground but not on the bottom of lakes there for we move the player diffrently
 const PLAYER_WATER_Y_POS_TOP = TILE_HEIGHT
 const PLAYER_WATER_Y_POS_BOTTOM = TILE_HEIGHT_HALF
@@ -41,6 +42,8 @@ let animationKey = 'down-center'
 const animationSpeed = 0.1
 
 let playerChunkKey = ''
+
+let showSeedDisplay = false
 
 const getVerticleDirection = (verticle: string) => {
 	return verticle === 'w' ? 'up' : 'down'
@@ -421,3 +424,43 @@ export const movePlayerPosition = (player: Sprite, world: Container, ticker: Tic
 	animationTimer += ticker.deltaTime / 60
 	handlePlayerAnimation(player)
 }
+
+export const toggleSeedDisplay = () => {
+	showSeedDisplay = !showSeedDisplay
+}
+
+const updateSeedDisplay = () => {
+	let seedElement = document.getElementById('seed-display')
+
+	if (showSeedDisplay) {
+		if (!seedElement) {
+			seedElement = document.createElement('div')
+			seedElement.id = 'seed-display'
+			seedElement.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                font-family: monospace;
+                z-index: 1000;
+            `
+			document.body.appendChild(seedElement)
+		}
+		seedElement.textContent = `Current seed: ${getSeed()}`
+		seedElement.style.display = 'block'
+	} else if (seedElement) {
+		seedElement.style.display = 'none'
+	}
+}
+
+window.addEventListener('keydown', (ev) => {
+	if (ev.key === 'v') {
+		toggleSeedDisplay()
+		updateSeedDisplay()
+	} else {
+		registerPlayerMovement(ev.key)
+	}
+})
